@@ -26,7 +26,7 @@ class Params:
     eta_c: float = 0.85
 
     # Provisional until a propeller/airfoil family is selected.
-    theta75_deg: float = 20.0
+    theta75_deg: float = 20.0 #change this to be a design variable and not constant 
     Mtip_max: float = 0.65
     FM_min: float = 0.60
     Pavail_h: float = 1000.0
