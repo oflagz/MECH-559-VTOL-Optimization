@@ -1,9 +1,5 @@
 __pycache__/
-*.py[cod]
 .pytest_cache/
+*.pyc
 .venv/
-venv/
-.env
 .DS_Store
-results/figures/*.png
-results/tables/*.csv

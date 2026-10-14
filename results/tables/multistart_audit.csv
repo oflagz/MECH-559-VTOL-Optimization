@@ -1,0 +1,10 @@
+blades,start,success,feasible,energy_wh,iterations,message
+2,1,True,True,152.76297667672998,14,Optimization terminated successfully
+2,2,True,True,152.76297668261265,8,Optimization terminated successfully
+2,3,True,True,152.7629765678226,8,Optimization terminated successfully
+3,1,True,True,138.10063350213065,12,Optimization terminated successfully
+3,2,True,True,138.10063349935095,18,Optimization terminated successfully
+3,3,True,True,138.1006334993509,16,Optimization terminated successfully
+4,1,True,True,146.48355933455488,16,Optimization terminated successfully
+4,2,True,True,146.48355928318313,22,Optimization terminated successfully
+4,3,True,True,146.48355898109426,11,Optimization terminated successfully
