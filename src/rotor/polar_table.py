@@ -37,10 +37,10 @@ class PolarTable:
             low = np.searchsorted(self.re,re,side="right")-1
             low = np.clip(low,0,len(self.re)-1)
             high = np.clip(low+1,0,len(self.re)-1)
-            t = np.divide(np.log(re)-np.log(self.re[low]),
-                          np.log(self.re[high])-np.log(self.re[low]),
+            denom = np.log(self.re[high])-np.log(self.re[low])
+            t = np.divide(np.log(re)-np.log(self.re[low]), denom,
                           out=np.zeros_like(re,dtype=float),
-                          where=high!=low)
+                          where=denom!=0)
             v0 = np.array([np.interp(ai,self.alpha,table[i])
                            for ai,i in zip(a.flat,low.flat)]).reshape(a.shape)
             v1 = np.array([np.interp(ai,self.alpha,table[i])
