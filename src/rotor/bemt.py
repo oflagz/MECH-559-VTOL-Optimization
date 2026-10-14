@@ -9,7 +9,7 @@ from .airfoil import surrogate_polar
 from .geometry import pitch_distribution
 from .hover import hover_required_thrust
 
-def bemt_axial(R, c, omega, theta_tw_deg, Nb, V_axial, p, polar=None):
+def bemt_axial(R, c, omega, theta_tw_deg, Nb, V_axial, p, polar=None, theta75_deg=None):
     if R <= 0 or c <= 0 or omega <= 0:
         return {"T": -1e9, "P_sh": 1e12, "Q": 1e12, "vi": 0.0,
                 "converged": False, "iterations": 0}
@@ -17,7 +17,7 @@ def bemt_axial(R, c, omega, theta_tw_deg, Nb, V_axial, p, polar=None):
     edges = np.linspace(p.hub_fraction * R, R, p.n_elements + 1)
     r = 0.5 * (edges[:-1] + edges[1:])
     dr = np.diff(edges)
-    theta = pitch_distribution(r, R, theta_tw_deg, p.theta75_deg)
+    theta = pitch_distribution(r, R, theta_tw_deg, p.theta75_deg if theta75_deg is None else theta75_deg)
     vi = np.full_like(r, max(0.1, np.sqrt(hover_required_thrust(p) /
                                          (2*p.rho*np.pi*R**2))))
     swirl = np.zeros_like(r)
@@ -73,8 +73,8 @@ def bemt_axial(R, c, omega, theta_tw_deg, Nb, V_axial, p, polar=None):
             "iterations": iteration, "Re_min": float(np.min(reynolds)),
             "Re_max": float(np.max(reynolds))}
 
-def hover_capability(R, c, omega_h, theta_tw, Nb, p):
-    return bemt_axial(R, c, omega_h, theta_tw, Nb, 0.0, p)
+def hover_capability(R, c, omega_h, theta_tw, Nb, p, theta75_deg=None):
+    return bemt_axial(R, c, omega_h, theta_tw, Nb, 0.0, p, theta75_deg=theta75_deg)
 
-def cruise_model(R, c, omega_c, theta_tw, Nb, p):
-    return bemt_axial(R, c, omega_c, theta_tw, Nb, p.Vc, p)
+def cruise_model(R, c, omega_c, theta_tw, Nb, p, theta75_deg=None):
+    return bemt_axial(R, c, omega_c, theta_tw, Nb, p.Vc, p, theta75_deg=theta75_deg)
