@@ -1,0 +1,30 @@
+% Rotor-only contribution to the group's Sprint 3 report.
+% Paste sections inside the existing shared 10pt article document.
+% Uses Sprint 1 packages: amsmath, array, booktabs, enumitem.
+\subsection*{Planned and Completed Work}
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.82\linewidth}p{0.10\linewidth}@{}}
+\toprule
+\textbf{Task} & \textbf{Owner} \\
+\midrule
+Compare BEMT thrust and power coefficients with published UIUC propeller data. & Ashish \\
+Evaluate active constraints/KKT conditions and reoptimize under changed coupled inputs. & Ashish \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Technical Progress and Results}
+\begin{itemize}[leftmargin=*,nosep]
+    \item Benchmarked BEMT against published APC 10$\times$7 blade geometry and 16 static tests: mean absolute errors were 37.1\% in $C_T$ and 52.3\% in $C_P$, identifying a need for measured airfoil polars.
+    \item Applied KKT and active-set diagnostics to the provisional SLSQP solution. Active constraints were $c_{\min}$, $\theta_{75,\max}$, and $FM_{\min}$; the active Jacobian had full rank (5/5).
+    \item Reoptimized for nine takeoff-mass/cruise-drag scenarios (109.85--172.26 Wh). Increasing BEMT resolution from 96 to 192 elements changed the optimized screening energy by 0.10\%.
+\end{itemize}
+
+\subsection*{Impediments and Lessons Learned}
+The surrogate airfoil model does not yet predict measured propeller performance accurately. The KKT check supports numerical first-order consistency, not global optimality or physical validation.
+
+\subsection*{Next Sprint Plan}
+Integrate measured $C_l/C_d$ polars, validate BEMT and close the rotor--wing--motor mass/energy coupling with team inputs.

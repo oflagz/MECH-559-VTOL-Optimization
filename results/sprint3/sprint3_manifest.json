@@ -1,0 +1,98 @@
+{
+  "benchmark": {
+    "data_source": "UIUC Propeller Database Volume 1 / Brandt and Selig; APC SF 10x7",
+    "geometry_status": "published radial chord/pitch distributions",
+    "polar_status": "illustrative synthetic polar; NOT validated / NOT calibrated",
+    "static_count": 16,
+    "dynamic_count": 16,
+    "static_CT_mape_pct": 37.107523485615786,
+    "static_CP_mape_pct": 52.254585581571156,
+    "forward_positive_count": 9,
+    "forward_CT_mape_pct": 56.433934396188924,
+    "forward_CP_mape_pct": 58.54066052557036,
+    "note": "Large prediction errors and wrong sign near windmilling show model is not experimentally predictive. No parameter calibration was performed."
+  },
+  "kkt_3blade": {
+    "energy_wh": 138.1006334993509,
+    "eq_residual_max": 3.1086244689504383e-15,
+    "inequality_min_margin": -2.220446049250313e-16,
+    "active_constraints": [
+      "hover_figure_of_merit",
+      "chord_m:lower",
+      "theta75_deg:upper"
+    ],
+    "equality_multipliers": [
+      -0.2658693995686384,
+      -0.9947652141162882
+    ],
+    "active_inequality_multipliers": {
+      "hover_figure_of_merit": 1.081560488755495,
+      "chord_m:lower": 0.4547316871532236,
+      "theta75_deg:upper": 0.3295718013658549
+    },
+    "kkt_stationarity_l2": 1.7241016496964224e-14,
+    "kkt_stationarity_inf": 1.4210854715202004e-14,
+    "gradient_normalized": [
+      5.479467697307634,
+      2.2961903238768087,
+      1.0021689866671994,
+      27.91693537416521,
+      6.778760557439126
+    ],
+    "jacobian_rows": 5,
+    "jacobian_rank": 5,
+    "licq_full_row_rank": true,
+    "condition_singular_values": [
+      29.457138326168465,
+      4.420511661657833,
+      0.9727265442230444,
+      0.9143228334386034,
+      0.023602611217267488
+    ],
+    "normalized_x": [
+      0.6175182263909372,
+      0.0,
+      0.17642226701388186,
+      0.048077767754247804,
+      1.0
+    ],
+    "status": "first-order numerical diagnostic only; no guarantee of global optimality"
+  },
+  "resolution_reoptimization": {
+    "n96": {
+      "energy_wh": 138.1006334993509,
+      "x": [
+        0.25410218716691246,
+        0.018,
+        254.6826881666633,
+        197.88510529746372,
+        33.0
+      ],
+      "min_margin": -2.220446049250313e-16
+    },
+    "n192": {
+      "energy_wh": 138.23899123117772,
+      "x": [
+        0.24993363380791692,
+        0.018,
+        261.2852894181947,
+        201.702317830901,
+        33.0
+      ],
+      "min_margin": 0.0
+    },
+    "n96_solution_evaluated_at_n192": {
+      "energy_wh": 137.88447128794084,
+      "hover_trim_error_rel": -0.0006726316274902056,
+      "cruise_trim_error_rel": -0.0023496087567805857,
+      "min_margin": -0.0009176364100659251
+    }
+  },
+  "screening_only": true,
+  "team_mass_drag": "scenario parameters, not teammate-approved values",
+  "course_topics": [
+    "L8 KKT and regularity",
+    "L9 SQP and active set",
+    "sensitivity and local-vs-global optimality"
+  ]
+}
