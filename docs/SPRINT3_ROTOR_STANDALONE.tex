@@ -1,0 +1,49 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\begin{document}
+\section*{Sprint 3 Update}
+\subsection*{Sprint Goal}
+Validate the rotor aerodynamic model and assess the numerical optimum
+using active-constraint, KKT, and sensitivity analyses.
+\subsection*{Planned and Completed Work}
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.82\linewidth}p{0.10\linewidth}@{}}
+\toprule
+\textbf{Task} & \textbf{Owner} \\
+\midrule
+Benchmark BEMT predictions against published propeller measurements. & Ashish \\
+Check active constraints, KKT regularity, and coupled-input sensitivity. & Ashish \\
+\bottomrule
+\end{tabular}
+\end{table}
+\subsection*{Technical Progress and Results}
+\begin{itemize}[leftmargin=*,nosep]
+\item Compared BEMT with published APC 10$\times$7 propeller
+data. Static mean absolute percentage errors were 37.1\% for thrust
+coefficient $C_T$ and 52.3\% for power coefficient $C_P$.
+\item Examined the SLSQP solution using KKT and active-set concepts.
+Binding limits were $c_{\min}$, $\theta_{75,\max}$, and $FM_{\min}$;
+the active-constraint Jacobian had full rank.
+\item Reoptimized nine provisional aircraft-mass/cruise-drag scenarios
+(109.85--172.26 Wh). Refining the BEMT mesh from 96 to 192
+elements changed the optimized screening energy by about 0.10\%.
+\end{itemize}
+\subsection*{Impediments and Lessons Learned}
+Large experimental errors indicate that the assumed airfoil polar
+is not yet suitable for physical rotor prediction. KKT checks
+support local numerical consistency, not global optimality.
+\subsection*{Next Sprint Plan}
+Incorporate measured airfoil polars and rotor mass estimates;
+update the coupled optimization using wing and propulsion inputs.
+\end{document}
