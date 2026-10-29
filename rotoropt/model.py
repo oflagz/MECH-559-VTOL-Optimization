@@ -33,7 +33,8 @@ class Mission:
     max_iter: int = 90
     relax: float = .32
     tolerance: float = 5e-5
-    # Intentionally *not* a calibrated airfoil or rotor mass model.
+    polar_model: str = "surrogate"  # "clarky_uiuc" is an experimental SECTION PROXY
+    # Intentionally *not* a calibrated rotor mass model.
 
     @property
     def hover_thrust_n(self):
@@ -66,6 +67,7 @@ def predict(radius_m, chord_m, omega_rad_s, pitch75_deg, n_blades,
     if min(radius_m, chord_m, omega_rad_s) <= 0 or axial_speed_mps < 0:
         raise ValueError('positive geometry, speed and axial flow required')
     m=mission
+    from .polars import coefficients
     edges=np.linspace(m.hub_fraction*radius_m,radius_m,m.n_elements+1)
     r=(edges[:-1]+edges[1:])/2
     dr=np.diff(edges)
@@ -79,7 +81,7 @@ def predict(radius_m, chord_m, omega_rad_s, pitch75_deg, n_blades,
         phi=np.arctan2(va,vt)
         vrel=np.hypot(va,vt)
         reynolds=m.rho*vrel*chord_m/(1.81e-5)
-        cl,cd=polar(pitch-phi,reynolds)
+        cl,cd,_,_=coefficients(pitch-phi,reynolds,m.polar_model)
         lift=.5*m.rho*vrel**2*chord_m*n_blades*cl*dr
         drag=.5*m.rho*vrel**2*chord_m*n_blades*cd*dr
         thrust=lift*np.cos(phi)-drag*np.sin(phi)
@@ -111,6 +113,11 @@ def predict(radius_m, chord_m, omega_rad_s, pitch75_deg, n_blades,
             converged=True
             break
     dt,dq,phi,reynolds=forces(vi,swirl)
+    _,_,valid_alpha,valid_re=coefficients(pitch-phi,reynolds,m.polar_model)
+    weights=r*r*dr  # approximate radial loading weighting
+    valid_weight=float(np.sum(weights*(valid_alpha&valid_re))/np.sum(weights))
+    alpha_range=(float(np.min(np.rad2deg(pitch-phi))),
+                 float(np.max(np.rad2deg(pitch-phi))))
     thrust=float(sum(dt))
     torque=float(sum(dq))
     shaft_power=torque*omega_rad_s
@@ -122,6 +129,8 @@ def predict(radius_m, chord_m, omega_rad_s, pitch75_deg, n_blades,
             'figure_of_merit':fm,'converged':converged,'iterations':iteration,
             'reynolds_min':float(min(reynolds)),'reynolds_max':float(max(reynolds)),
             'tip_mach':np.hypot(omega_rad_s*radius_m,axial_speed_mps)/m.speed_of_sound,
+            'measured_polar_coverage_weighted':valid_weight,
+            'alpha_range_deg':alpha_range,
             'prop_efficiency':thrust*axial_speed_mps/shaft_power if shaft_power>0 else np.nan}
 
 

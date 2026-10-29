@@ -10,6 +10,8 @@ This repository was restarted to remove the previous mixed analytical/BEMT objec
 python -m pip install -r requirements.txt
 python -m pytest -q
 python -m scripts.week1_study
+# Reproduce only the corrected blade-element convergence test:
+python -m scripts.mesh_convergence
 ```
 
 All figures are regenerated in `results/figures/`, with full tables and optimization diagnostics in `results/tables/`.
@@ -33,7 +35,9 @@ All figures are regenerated in `results/figures/`, with full tables and optimiza
 
 - `rotoropt/model.py`: consistent BEMT performance, Prandtl loss corrections, independent analytic hover check
 - `rotoropt/optimize.py`: exact-thrust constraints, geometry/power limits, scaled SLSQP multistart
-- `scripts/week1_study.py`: reproducible tables and six sprint figures
+- `scripts/week1_study.py`: reproducible optimization tables, plots and corrected convergence test
+- `scripts/mesh_convergence.py`: standalone fixed-geometry/RPM convergence test with 4096-element reference checked against 8192
+- `docs/CONVERGENCE.md`: numerical error definition, thresholds and limitations
 - `tests/`: physics and solver regression tests
 - `docs/ROADMAP.md`: four-week schedule and outputs
 - `docs/INTERFACES.md`: input priorities, outputs for Antoine and Damian
@@ -43,3 +47,24 @@ All figures are regenerated in `results/figures/`, with full tables and optimiza
 ## Validation pathway
 
 For measured small-UAV propeller thrust/power data use the [UIUC Propeller Database](https://m-selig.ae.illinois.edu/props/propDB.html). Match a tested propeller with manufacturer **blade chord/twist distribution and airfoil polar data** before claiming BEMT validation; a propeller's nominal diameter and pitch alone are insufficient. See Week 2 plan.
+
+## Interpreting grid convergence
+
+The original absolute-thrust convergence chart concealed variation at the 0.01 N scale.
+The corrected **relative-error** plots show separate hover/cruise curves for thrust and
+electrical power. Keeping rotor geometry and RPM fixed, the maximum discrepancy at
+96 elements is 0.301% against a 4096-element numerical reference (checked against
+8192 elements). At 192 elements it is 0.0657%. The optimization was run at
+96 elements; for a stricter 0.1% grid-error target, **rerun the optimization**
+at 192 or more elements and recheck trim/constraints. See `docs/CONVERGENCE.md`.
+
+## Next-sprint aerodynamic development (separate from completed Sprint 3)
+
+The preparatory next-sprint aerodynamic study is documented in
+[`docs/NEXT_SPRINT_AERODYNAMIC_DEVELOPMENT.md`](docs/NEXT_SPRINT_AERODYNAMIC_DEVELOPMENT.md).
+Run `python -m scripts.next_sprint_aerodynamics` after installing requirements
+for source-audited Clark-Y measured-section proxy interpolation, APC 10×7
+comparison, polar-domain coverage warnings, induction sensitivity and fresh
+SLSQP solutions. **None of the new airfoil-proxy optima is experimentally
+qualified; the measured polars do not cover most of the required operating
+range.** Existing Sprint 3 reporting files were not modified.

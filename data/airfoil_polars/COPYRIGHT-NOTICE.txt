@@ -1,0 +1,13 @@
+UIUC Low-Speed Airfoil Tests (UIUC LSATs) — Clark-Y(B) section measurements
+Original experimental data: Copyright UIUC LSAT program / Michael S. Selig
+and contributors. See the original Volume 3 report and sources linked in
+README.md. Original experiment and source measurement data are not authored
+by the MECH 559 project team. Redistribution under GNU GPL version 2,
+see LICENSE-GPL-2.0.txt and the official LSAT Manifesto:
+https://m-selig.web.engr.illinois.edu/pd/pub/lsat/MANIFEST.html
+
+Derived 45-row combined CSV: columns and interpolation generated October 2026.
+This adaptation combines independently tested lift and drag polars at
+nominal Reynolds groups and interpolates Cl onto the drag alpha grid.
+Do not identify the resulting rows as directly measured paired lift and drag.
+No warranty is provided, especially outside test Reynolds/alpha ranges.

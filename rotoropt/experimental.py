@@ -19,12 +19,15 @@ def load_geometry(path=DATA/'apcsf_10x7_geometry.csv'):
     assert np.all(np.diff(a['r_over_R'])>0)
     return a
 
-def predict_reference(rpm, J=0., n_elements=120, rho=RHO, use_tip_hub_loss=True):
+def predict_reference(rpm, J=0., n_elements=120, rho=RHO, use_tip_hub_loss=True,
+                      polar_model='surrogate', inner_section='clarky_proxy',
+                      include_swirl=True):
     """Blade geometry from UIUC; illustrative surrogate airfoil only.
 
     Returns nondimensional CT, CP and efficiency, or convergence diagnostics.
     No free parameters are fitted against UIUC thrust or power observations.
     """
+    from .polars import coefficients
     geom=load_geometry()
     n=rpm/60.
     omega=2*np.pi*n
@@ -46,7 +49,13 @@ def predict_reference(rpm, J=0., n_elements=120, rho=RHO, use_tip_hub_loss=True)
         phi=np.arctan2(va,vt)
         vrel=np.hypot(va,vt)
         re=rho*vrel*chord/1.81e-5
-        cl,cd=polar(pitch-phi,re)
+        cl,cd,_,_=coefficients(pitch-phi,re,polar_model)
+        if polar_model=='clarky_uiuc' and inner_section=='surrogate_inboard':
+            cl_legacy,cd_legacy,_,_=coefficients(pitch-phi,re,'surrogate')
+            # The inboard E63 section is NOT known: this is an uncertainty study.
+            mask=x < .40
+            cl=np.where(mask,cl_legacy,cl)
+            cd=np.where(mask,cd_legacy,cd)
         dL=.5*rho*vrel**2*chord*NBLADES*cl*dr
         dD=.5*rho*vrel**2*chord*NBLADES*cd*dr
         dT=dL*np.cos(phi)-dD*np.sin(phi)
@@ -66,6 +75,8 @@ def predict_reference(rpm, J=0., n_elements=120, rho=RHO, use_tip_hub_loss=True)
         target_vi=(np.sqrt(V*V+dtdr/(np.pi*rho*F*r))-V)/2
         target_swirl=np.maximum(dQ/dr,0)/(4*np.pi*rho*F*r*r*np.maximum(V+target_vi,.05))
         target_swirl=np.minimum(target_swirl,.6*omega*r)
+        if not include_swirl:
+            target_swirl[:]=0.
         vi_new=(1-relax)*vi+relax*target_vi
         swirl_new=(1-relax)*swirl+relax*target_swirl
         err=max(np.max(np.abs(vi_new-vi)),np.max(np.abs(swirl_new-swirl)))
@@ -74,10 +85,16 @@ def predict_reference(rpm, J=0., n_elements=120, rho=RHO, use_tip_hub_loss=True)
             convergence=True
             break
     dT,dQ,phi,re=loads(vi,swirl)
+    _,_,va,vr=coefficients(pitch-phi,re,polar_model)
+    # Propeller inboard treatment is an explicit approximation, not 'verified'.
+    coverage=float(np.sum(dr*chord*(va&vr))/np.sum(dr*chord))
+    alpha_deg=np.rad2deg(pitch-phi)
     thrust=float(np.sum(dT)); torque=float(np.sum(dQ)); shaft=torque*omega
     ct=thrust/(rho*n*n*D**4)
     cp=shaft/(rho*n**3*D**5)
     eta=J*ct/cp if cp>0 else np.nan
     return {'CT':ct,'CP':cp,'eta':eta,'thrust_n':thrust,'shaft_w':shaft,
             'converged':convergence,'iterations':it,'re_min':float(min(re)),
-            're_max':float(max(re))}
+            're_max':float(max(re)), 'alpha_min_deg':float(min(alpha_deg)),
+            'alpha_max_deg':float(max(alpha_deg)),
+            'measured_polar_coverage_weighted':coverage}
