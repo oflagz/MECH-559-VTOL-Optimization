@@ -1,45 +1,40 @@
-# MECH 559 | VTOL Tiltrotor Rotor Optimization (Rebuilt)
+# MECH 559 — Clean rotor subsystem (Group 5)
 
-**Status:** fully reproducible preliminary *mathematical* optimization; **NOT** a verified real propeller design. Model inputs are exploratory and section polars are synthetic/illustrative. No measured thrust/power validation or rotor-mass coupling has yet been completed.
+This directory contains the **2026 individual rotor engineering study** rebuilt from scratch after auditing the earlier BEMT optimization. It is based on published experimental UIUC propeller performance and has explicit boundaries on extrapolation. **Do not reuse the retired 138.10 Wh surrogate-model optimum.**
 
-This repository was restarted to remove the previous mixed analytical/BEMT objective, which could assign shaft power independently of thrust capability. It now evaluates thrust and power at **the same rotor geometry, pitch and RPM**, and enforces both hover and cruise trim as equalities. The Git history retains the earlier prototype.
-
-## Run locally (Python 3.10+)
+## Run everything
 
 ```bash
 python -m pip install -r requirements.txt
 python -m pytest -q
-python -m scripts.week1_study
+python data/make_source_tables.py
+python -m scripts.run_study
+cd . && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=docs docs/individual_report.tex
 ```
 
-All figures are regenerated in `results/figures/`, with full tables and optimization diagnostics in `results/tables/`.
+`data/make_source_tables.py` reproduces the source-transcribed static/dynamic CSVs.
+The primary engineering results are in `results/tables/study_summary.json`; the five plots and derived tables are in `results/figures` and `results/tables`. The PDF is `docs/individual_report.pdf`.
 
-## Design and mathematics
+## Folder layout
 
-- Continuous decision variables: `x=[R,c,omega_hover,omega_cruise,theta75]`, with `theta75` explicitly optimized following the professor's feedback.
-- Fixed rotor assemblies: 4. Enumerated blades per rotor: 2, 3, 4.
-- Blade twist fixed to 0 during the preliminary screen (constant pitch), not optimized in place of theta75.
-- SLSQP minimizes `4*(P_hover,electrical*t_hover+P_cruise,electrical*t_cruise)`; all terms use one blade-element and momentum model.
-- Exact trim equality constraints `T_hover=T_required` and `T_cruise=D_cruise/4` prevent overthrust from masquerading as useful steady-flight energy.
-- Inequalities enforce power, motor torque, tip Mach, mounting clearance, hover figure of merit and a 10% RPM reserve used to test >=15% hover thrust headroom. Solver outputs are independently re-evaluated and feasibility audited.
-- Multistart optimizer, constrained blade-count comparison, feasible radius/pitch map, wing mass/cruise drag input sensitivity and blade-element convergence plots.
-- **Mass penalty not yet included in the mission objective:** empirical rotor/motor mass data and the team's mass closure are not currently available. The local fixed-mass solution is not the global aircraft optimum.
+- `rotor/catalog.py` — experimental propeller lookup; PCHIP-in-J and bracketed-RPM interpolation; no extrapolation.
+- `rotor/optimization.py` — measured-data catalogue enumeration, thrust trim, constraints, SLSQP and independent brentq check.
+- `rotor/physics.py` — corrected signed annular momentum equations; explicitly flags unsupported BEMT regimes. **Diagnostic, not physical design selector.**
+- `rotor/verification.py` — held-out measured-curve interpolation checks.
+- `data/` — referenced public experiments, APC propeller masses, and source transcription script.
+- `scripts/run_study.py` — figure/table generation and all sensitivity sweeps.
+- `docs/individual_report.tex` — exact five-section individual course report; compiled to PDF.
+- `tests/` — reproducibility, sign handling, measured-domain constraints and sanity checks.
 
-## Important distinction: official mission vs provisional screening
+## Technical status and limits
 
-**Project abstract:** 5 kg **payload**, 40 km sortie, 5 minutes hover, stated 20 minutes cruise. **Provisional rotor screening:** 5 kg **total takeoff mass**, 36 km at 20 m/s = 30 minutes cruise, 2 minutes hover. The project report does not reconcile these. Do not silently interchange them. See `docs/ASSUMPTIONS.md`.
+- 13 tests pass locally.
+- Main alternative (not official mission): 5 kg payload included in an assumed **9.5 kg base aircraft excluding propellers**, 40 km at 20 m/s, 5 minutes hover: APC 18x12E (two-blade) 3890 RPM hover / 3500 RPM cruise, **278.3 Wh rotor-only electrical**. The 40-km cruise lasts **33.3 minutes**, not the official 20 minutes.
+- Official 40 km in 20 min requires **33.3 m/s**: none of the four measured catalogue propellers has a verified matching forward-flight trim in the covered RPM/J domain. This is not proof of infeasibility of every possible hardware design.
+- Catalogue optimization has discrete propeller selection and two continuous RPMs. Original five-variable geometry BEMT model retired due inconsistent negative loading. No independent claim of optimal diameter/chord/pitch in continuous space is made.
+- The manufacturer's 2026 propeller mass specifications and historic UIUC test specimens may not be identical. Source CT/CP use true measured test diameter, but available screening uses nominal diameter: +/-1% diameter sensitivity recorded.
+- Assumed power/torque and cruise-drag interfaces must be approved by teammates; no full coupled MDO or aircraft certification is claimed.
 
-## Repository map
+## Sources
 
-- `rotoropt/model.py`: consistent BEMT performance, Prandtl loss corrections, independent analytic hover check
-- `rotoropt/optimize.py`: exact-thrust constraints, geometry/power limits, scaled SLSQP multistart
-- `scripts/week1_study.py`: reproducible tables and six sprint figures
-- `tests/`: physics and solver regression tests
-- `docs/ROADMAP.md`: four-week schedule and outputs
-- `docs/INTERFACES.md`: input priorities, outputs for Antoine and Damian
-- `docs/FEEDBACK_AUDIT.md`: professor feedback mapped to implementations
-- `docs/SPRINT2_ROTORS.md`: report-ready progress with explicit limitations
-
-## Validation pathway
-
-For measured small-UAV propeller thrust/power data use the [UIUC Propeller Database](https://m-selig.ae.illinois.edu/props/propDB.html). Match a tested propeller with manufacturer **blade chord/twist distribution and airfoil polar data** before claiming BEMT validation; a propeller's nominal diameter and pitch alone are insufficient. See Week 2 plan.
+See `data/SOURCES.md` for each measured UIUC curve and each APC product weight. UIUC Database Volume 4: https://m-selig.ae.illinois.edu/props/volume-4/propDB-volume-4.html .
