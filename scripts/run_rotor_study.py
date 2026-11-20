@@ -1,6 +1,6 @@
 """Run full MECH559 rotor analysis; single reproducible entry point.
 
-python -m scripts.run_study
+python -m scripts.run_rotor_study
 Outputs report tables, plots and the JSON summary. No extrapolation.
 """
 from pathlib import Path
@@ -16,7 +16,7 @@ from rotor.optimization import Mission,evaluate_catalog,solve_catalog
 from rotor.verification import holdout_quality
 from rotor.physics import bemt_diagnostic
 
-ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/'results';(OUT/'figures').mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/'results'/'rotor';(OUT/'figures').mkdir(parents=True,exist_ok=True)
 (OUT/'tables').mkdir(parents=True,exist_ok=True)
 plt.rcParams.update({'font.size':10,'figure.figsize':(7.5,4.8),'savefig.dpi':170,'axes.spines.top':False,'axes.spines.right':False})
 

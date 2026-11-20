@@ -5,7 +5,7 @@ import csv
 import numpy as np
 from scipy.interpolate import PchipInterpolator
 
-DATA=Path(__file__).resolve().parents[1]/'data'
+DATA=Path(__file__).resolve().parents[1]/'data'/'rotor'
 @dataclass(frozen=True)
 class Propeller:
     name:str

@@ -1,8 +1,27 @@
+# Python caches and tooling
 __pycache__/
+*.py[cod]
 .pytest_cache/
-*.pyc
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local environments and OS files
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# Build and TeX artifacts
 *.aux
 *.log
 *.out
 *.toc
 *.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Individual submissions do not belong in the shared repository
+*individual_report*.pdf
+*individual_report*.tex
