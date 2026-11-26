@@ -1,4 +1,4 @@
-# Python caches and tooling
+# Python
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -6,14 +6,12 @@ __pycache__/
 .ruff_cache/
 .venv/
 venv/
-
-# Local environments and OS files
 .env
 .env.*
 .DS_Store
 Thumbs.db
 
-# Build and TeX artifacts
+# LaTeX
 *.aux
 *.log
 *.out
@@ -21,7 +19,15 @@ Thumbs.db
 *.synctex.gz
 *.fls
 *.fdb_latexmk
-
-# Individual submissions do not belong in the shared repository
 *individual_report*.pdf
 *individual_report*.tex
+
+# Generated rotor figures and intermediate numerical results
+results/figures/
+results/tables/*
+!results/tables/study_summary.json
+!results/tables/advanced_validation_summary.json
+!results/tables/pareto_qualified_archive.csv
+!results/tables/pareto_sample.csv
+!results/tables/interval_uncertainty_corners.csv
+!results/tables/derivative_free_comparison.csv
