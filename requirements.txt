@@ -1,4 +1,5 @@
-numpy>=1.24,<3
-scipy>=1.10,<2
-matplotlib>=3.7,<4
-pytest>=7,<10
+numpy>=1.26,<3
+scipy>=1.11,<2
+matplotlib>=3.8,<4
+numba>=0.60,<1
+pytest>=8,<10

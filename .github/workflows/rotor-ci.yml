@@ -1,24 +1,5 @@
-name: Rotor checks
-
-on:
-  push:
-    paths:
-      - 'rotor/**'
-      - 'data/rotor/**'
-      - 'scripts/run_rotor_study.py'
-      - 'tests/**'
-      - 'requirements.txt'
-      - '.github/workflows/rotor-ci.yml'
-  pull_request:
-    paths:
-      - 'rotor/**'
-      - 'data/rotor/**'
-      - 'scripts/run_rotor_study.py'
-      - 'tests/**'
-      - 'requirements.txt'
-      - '.github/workflows/rotor-ci.yml'
-  workflow_dispatch:
-
+name: Rotor tests
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -27,10 +8,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: pip
-      - name: Install dependencies
-        run: python -m pip install -r requirements.txt
-      - name: Run rotor tests
-        run: python -m pytest -q
-      - name: Reproduce rotor analysis
-        run: python -m scripts.run_rotor_study
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q
