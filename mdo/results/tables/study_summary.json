@@ -1,0 +1,231 @@
+{
+  "mission": {
+    "distance_m": 40000.0,
+    "hover_seconds": 300.0,
+    "cruise_seconds": 1200.0,
+    "payload_kg": 5.0,
+    "rotors": 4,
+    "wing_mass_kg": 0.314,
+    "wing_drag_parasite_n": 10.88,
+    "wing_drag_induced_ref_n": 1.29,
+    "wing_reference_mass_kg": 7.31,
+    "download_fraction": 0.032,
+    "installation_spacing_m": 0.65,
+    "installation_clearance_m": 0.05,
+    "propulsion_mass_kg": 3.58,
+    "usable_battery_wh": 382.0,
+    "fuselage_tail_avionics_kg": 0.55,
+    "nacelle_tilt_mass_each_kg": 0.09,
+    "eta_motor_esc": 0.85,
+    "peak_shaft_torque_nm": 1.5,
+    "available_electrical_power_w": 2400.0,
+    "max_tip_mach": 0.65,
+    "min_fm": 0.58,
+    "thrust_reserve": 0.15,
+    "reference_prop_mass_kg": 0.011906799712500001,
+    "reference_prop_radius_m": 0.127,
+    "mass_radius_power": 2.45,
+    "reference_mean_chord_m": 0.023,
+    "extra_energy_wh": 0.0
+  },
+  "cruise_speed_mps": 33.333333333333336,
+  "fixed_theta75_deg": 20.0,
+  "calibrated_polar": {
+    "cl_slope": 7.595898381847295,
+    "alpha_zero_deg": -5.5775259949814995,
+    "cl_max": 1.6999999999999997,
+    "cd0": 0.01844340154494801,
+    "drag_k": 0.029189642006380048,
+    "stall_drag": 0.9999999999999999,
+    "re_slope": 0.3499999999999997,
+    "re_cd": 0.24999999999999997
+  },
+  "fit_success": true,
+  "fit_cost": 0.3738840018288173,
+  "benchmark_training": {
+    "valid_n": 18,
+    "invalid_n": 2,
+    "ct_mae": 0.0020578053241706758,
+    "cp_mae": 0.0027932198028134745,
+    "ct_median_relative_pct": 1.5956002286991233,
+    "cp_median_relative_pct": 2.8691374529233276
+  },
+  "benchmark_holdout": {
+    "valid_n": 30,
+    "invalid_n": 8,
+    "ct_mae": 0.002692250056938826,
+    "cp_mae": 0.0033667697321434435,
+    "ct_median_relative_pct": 1.8002910529293634,
+    "cp_median_relative_pct": 4.051811569004667
+  },
+  "benchmark_invalid_holdout": [
+    [
+      "dynamic",
+      5006.0,
+      0.773,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      5006.0,
+      0.83,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      5006.0,
+      0.892,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      5006.0,
+      0.953,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      6014.0,
+      0.787,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      6014.0,
+      0.841,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      6014.0,
+      0.886,
+      "swirl outside low-induction regime"
+    ],
+    [
+      "dynamic",
+      6014.0,
+      0.935,
+      "swirl outside low-induction regime"
+    ]
+  ],
+  "blade_optima": [
+    {
+      "blades": 2,
+      "status": "battery feasible",
+      "energy_wh": 375.31531458224345,
+      "radius_m": 0.212183844352,
+      "mean_chord_m": 0.014773278675,
+      "hover_rad_s": 564.8201176481745,
+      "cruise_rad_s": 514.0970008341584,
+      "twist_deg": -27.799135872,
+      "mass_kg": 9.947447591510434,
+      "J_cruise": 0.960000002136974,
+      "max_hover_abs_alpha_deg": 24.4317433521282,
+      "max_cruise_abs_alpha_deg": 19.844806442078173,
+      "J_domain_margin": -2.136974042166173e-09,
+      "alpha_hover_margin_deg": 0.5682566478717987,
+      "alpha_cruise_margin_deg": 5.155193557921827,
+      "battery_margin_wh": 6.684685417756555
+    },
+    {
+      "blades": 3,
+      "status": "battery feasible",
+      "energy_wh": 372.2179638724026,
+      "radius_m": 0.230612272048,
+      "mean_chord_m": 0.010000281775,
+      "hover_rad_s": 503.6928733854126,
+      "cruise_rad_s": 473.0150611509178,
+      "twist_deg": -27.487152096000003,
+      "mass_kg": 10.034191158417899,
+      "J_cruise": 0.9600000025056172,
+      "max_hover_abs_alpha_deg": 25.00000429415381,
+      "max_cruise_abs_alpha_deg": 20.87943930713849,
+      "J_domain_margin": -2.505617269221716e-09,
+      "alpha_hover_margin_deg": -4.294153811201795e-06,
+      "alpha_cruise_margin_deg": 4.12056069286151,
+      "battery_margin_wh": 9.782036127597394
+    },
+    {
+      "blades": 4,
+      "status": "battery deficit",
+      "energy_wh": 385.5449772074742,
+      "radius_m": 0.221346829008,
+      "mean_chord_m": 0.009,
+      "hover_rad_s": 497.7331468275823,
+      "cruise_rad_s": 492.8151822034953,
+      "twist_deg": -24.855285695999996,
+      "mass_kg": 10.071531947597938,
+      "J_cruise": 0.9600000033609801,
+      "max_hover_abs_alpha_deg": 22.578045019034118,
+      "max_cruise_abs_alpha_deg": 21.87574130146288,
+      "J_domain_margin": -3.3609801608491807e-09,
+      "alpha_hover_margin_deg": 2.4219549809658822,
+      "alpha_cruise_margin_deg": 3.124258698537119,
+      "battery_margin_wh": -3.544977207474176
+    }
+  ],
+  "optimum": {
+    "blade_count": 3,
+    "design": [
+      0.230612272048,
+      0.010000281775,
+      503.6928733854126,
+      473.0150611509178,
+      -27.487152096000003
+    ],
+    "energy_wh": 372.2179638724026,
+    "hover_shaft_power_w": 344.8960693652754,
+    "cruise_shaft_power_w": 151.06493462733778,
+    "hover_torque_nm": 0.6847348604461393,
+    "cruise_torque_nm": 0.31936601396956316,
+    "hover_figure_of_merit": 0.5799999919924023,
+    "cruise_propulsive_efficiency": 0.7342667322651656,
+    "hover_thrust_n": 25.396337138559602,
+    "cruise_thrust_n": 3.3276586772599845,
+    "required_hover_n": 25.396337138132537,
+    "required_cruise_n": 3.327658679912722,
+    "mass_kg": 10.034191158417899,
+    "cruise_drag_n": 13.310634719650889,
+    "propeller_mass_each_kg": 0.057547789604474556,
+    "hover_energy_wh": 135.25336053540212,
+    "cruise_energy_wh": 236.96460333700045,
+    "negative_cruise_loading_fraction": 0.375,
+    "max_constraint_violation": 1.3806202924199782e-08,
+    "trim_residuals": [
+      1.681588202018247e-11,
+      -7.97178434375212e-10
+    ],
+    "J_cruise": 0.9600000025056172,
+    "max_hover_abs_alpha_deg": 25.00000429415381,
+    "max_cruise_abs_alpha_deg": 20.87943930713849,
+    "J_domain_margin": -2.505617269221716e-09,
+    "alpha_hover_margin_deg": -4.294153811201795e-06,
+    "alpha_cruise_margin_deg": 4.12056069286151,
+    "battery_margin_wh": 9.782036127597394
+  },
+  "kkt": {
+    "active_constraints": [
+      "minimum figure of merit",
+      "hover polar angle",
+      "advance ratio domain"
+    ],
+    "jacobian_rank": 3,
+    "active_constraint_count": 3,
+    "gradient_norm": 0.1729239971800749,
+    "stationarity_residual": 3.3993498887762956e-17,
+    "nonnegative_multipliers": [
+      0.5236939514474793,
+      0.03148504849691967,
+      0.6409498605814116
+    ],
+    "note": "Reduced KKT diagnostic on three geometry variables; two thrust equalities eliminated by exact bracketed trim."
+  },
+  "pareto_sample_count": 57,
+  "caveats": [
+    "Calibration is ONLY APC 10x7 Slow Flyer with two blades. Three- and four-blade geometry and optimized larger propellers have not been experimentally validated.",
+    "Some high-J measured points have no admissible low-induction momentum solution; coverage counts are reported.",
+    "No full mass-power MDO closure; fuselage and nacelle masses are explicit assumptions.",
+    "Usable pack energy excludes transition, avionics, weather, ageing and mandatory reserves; a small positive margin cannot imply full-system mission feasibility.",
+    "New high-pitch rotor family theta75=20 degrees is an assumed family parameter, not a measured manufacturer specification."
+  ]
+}
